@@ -71,8 +71,28 @@ Time. I need to carefully lay out a schedule for deliverables for the project, a
 
 *In the section below, sketch out a plan for your application. This is where you will spend the majority of your time in completing the ISP proposal. Think through what you hope to create and as needed, adjust your responses to the questions above.*
 
-Replace this with your images and paragraphs.
+* When the application is first launched, a list of classes will be shown. To add a class, a user will press the + button.
 
+![class_list](https://github.com/rgordonatrsgc/ics4u-isp/blob/master/Balance/class_list.jpeg?raw=true)
 
+* To add students to a class, a comma-delimited list of students must be pasted into the window. Then the user presses **Load Class** to allow *Balance* to parse the list given:
 
+![paste_new_class](https://github.com/rgordonatrsgc/ics4u-isp/blob/master/Balance/pasting_new_class.jpeg?raw=true)
 
+* After attempting to load a class from the comma-delimited input, the user provides a name for the class, then presses **Save Class** to complete the process of creating a new class:
+
+![save_new_class](https://github.com/rgordonatrsgc/ics4u-isp/blob/master/Balance/saving_class.jpeg?raw=true)
+
+* Back at the class list page, if the user taps a class:
+
+![class_list](https://github.com/rgordonatrsgc/ics4u-isp/blob/master/Balance/class_list.jpeg?raw=true)
+
+* ... the user will then be taken to a list of discussions that currently exist for a class. To start tracking a new discussion, the + button is tapped:
+
+![discussion_list](https://github.com/rgordonatrsgc/ics4u-isp/blob/master/Balance/discussions_list.jpeg?raw=true)
+
+* To track a discussion, the user taps a student's name when they begin speaking. When someone else starts speaking, their name is tapped. The timer counts up for whomever was most recently tapped. Most frequent speakers appear in the top-left corner of the window. The background colour of the **Active Discussions** title bar changes to indicate how balanced the discussion is so far (generally green for a balanced discussion, red for a discusion dominated by one or a few speakers in the group).
+
+![active_discussion](https://github.com/rgordonatrsgc/ics4u-isp/blob/master/Balance/active_discussion.jpeg?raw=true)
+
+Final note: discussions that have already been tracked and closed can be viewed after the fact in an interface similar to the Active Discussions view. The only difference is that the data is no longer changeable and student names cannot be tapped.
