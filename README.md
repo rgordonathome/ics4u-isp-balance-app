@@ -39,19 +39,19 @@ Within a discussion that is tracked, the user will know how much time each parti
 
 *Have you seen another application that you wish to improve on? Has someone asked you to create this?*
 
-Replace this with your paragraph(s).
+I teach mathematics in grade 9 and 10 at RSGC using a problem-based learning pedagogy. Ideally, a student discussion is balanced. This is a tool that I have wanted to use in my own classroom. I hope to build the tool because it solves a problem I care about. I expect it may be useful for other teachers who facilitate similar types of classroom discussion.
 
 ### What is your prior experience in this area?
 
 *Have you written an application like this before? Have you made use of any required APIs before?*
 
-Replace this with your paragraph(s).
+There are no special APIs that are required for this application. It will use standard iOS user interface components. I have written applications that use table views before, but have not written many applications with multiple view controllers. If I can implement the graph of the discussion as it evolved, that will be functionality that I have never created before.
 
 ### What are skills do you hope to acquire by completing this project?
 
 *For example, you might be writing a networked application for the first time. Or, you may be writing an application that requires a particularly well designed user interface. Describe what you expect to learn by writing this application.*
 
-Replace this with your paragraph(s).
+I have written more games and simple applications in the past. The user interface for *Balance* will be the most complicated of any application I have written before, so I expect to become significantly more familiar with how to deal with navigating between different views. I will also gain experience developing models for storing the data needed to track a conversation.
 
 ### What dependencies, if any, will be required to complete your project?
 
