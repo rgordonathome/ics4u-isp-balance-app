@@ -57,15 +57,15 @@ I have written more games and simple applications in the past. The user interfac
 
 *If you are writing a networked application, you might be using an API like Alamofire to simplify that part of the implementation. If you are writing an application that communicates over Bluetooth, you may be using the Core Bluetooth framework. Please list any expected dependencies for your project.*
 
-Replace this with your paragraph(s).
+No anticipated third party dependencies. I will only be using standard iOS APIs provided by Apple.
 
 ### Rate the personal difficulty level of this project.
 
-Replace this with your paragraph(s).
+This will be a moderately difficult project for me, personally. The logic and data model are not very challenging. The program is only useful if the interface is well designed. I will be especially focusing on reducing "friction" and ensuring that the application is easy to use. Teachers have a lot to manage in an active classroom, so they will not use the application if they have to "fuss" with it too much.
 
 ### Identify what you think your biggest challenge for successfully completing this ISP will be.
 
-Replace this with your paragraph(s).
+Time. I need to carefully lay out a schedule for deliverables for the project, and stay ahead of my students so I can provide them with a good exemplar!
 
 ### Make storyboards to indicate the user interface and/or functionality of your application.
 
