@@ -12,12 +12,12 @@
 		8193EBF71E4D169700ECEFF9 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8193EBF51E4D169700ECEFF9 /* Main.storyboard */; };
 		8193EBF91E4D169700ECEFF9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8193EBF81E4D169700ECEFF9 /* Assets.xcassets */; };
 		8193EBFC1E4D169700ECEFF9 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8193EBFA1E4D169700ECEFF9 /* LaunchScreen.storyboard */; };
-		8193EC051E4D16B200ECEFF9 /* README.md in Sources */ = {isa = PBXBuildFile; fileRef = 8193EC041E4D16B200ECEFF9 /* README.md */; };
 		8193EC0B1E4D16F900ECEFF9 /* class_list.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = 8193EC061E4D16F900ECEFF9 /* class_list.jpeg */; };
 		8193EC0C1E4D16F900ECEFF9 /* pasting_new_class.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = 8193EC071E4D16F900ECEFF9 /* pasting_new_class.jpeg */; };
 		8193EC0D1E4D16F900ECEFF9 /* saving_class.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = 8193EC081E4D16F900ECEFF9 /* saving_class.jpeg */; };
 		8193EC0E1E4D16F900ECEFF9 /* discussions_list.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = 8193EC091E4D16F900ECEFF9 /* discussions_list.jpeg */; };
 		8193EC0F1E4D16F900ECEFF9 /* active_discussion.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = 8193EC0A1E4D16F900ECEFF9 /* active_discussion.jpeg */; };
+		8193EC111E4D176A00ECEFF9 /* README.md in Sources */ = {isa = PBXBuildFile; fileRef = 8193EC101E4D176A00ECEFF9 /* README.md */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -28,12 +28,12 @@
 		8193EBF81E4D169700ECEFF9 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		8193EBFB1E4D169700ECEFF9 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		8193EBFD1E4D169700ECEFF9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		8193EC041E4D16B200ECEFF9 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		8193EC061E4D16F900ECEFF9 /* class_list.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = class_list.jpeg; sourceTree = "<group>"; };
 		8193EC071E4D16F900ECEFF9 /* pasting_new_class.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = pasting_new_class.jpeg; sourceTree = "<group>"; };
 		8193EC081E4D16F900ECEFF9 /* saving_class.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = saving_class.jpeg; sourceTree = "<group>"; };
 		8193EC091E4D16F900ECEFF9 /* discussions_list.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = discussions_list.jpeg; sourceTree = "<group>"; };
 		8193EC0A1E4D16F900ECEFF9 /* active_discussion.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = active_discussion.jpeg; sourceTree = "<group>"; };
+		8193EC101E4D176A00ECEFF9 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../README.md; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -85,7 +85,7 @@
 				8193EC081E4D16F900ECEFF9 /* saving_class.jpeg */,
 				8193EC091E4D16F900ECEFF9 /* discussions_list.jpeg */,
 				8193EC0A1E4D16F900ECEFF9 /* active_discussion.jpeg */,
-				8193EC041E4D16B200ECEFF9 /* README.md */,
+				8193EC101E4D176A00ECEFF9 /* README.md */,
 			);
 			name = Documentation;
 			sourceTree = "<group>";
@@ -168,7 +168,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8193EC051E4D16B200ECEFF9 /* README.md in Sources */,
+				8193EC111E4D176A00ECEFF9 /* README.md in Sources */,
 				8193EBF41E4D169700ECEFF9 /* ViewController.swift in Sources */,
 				8193EBF21E4D169700ECEFF9 /* AppDelegate.swift in Sources */,
 			);
