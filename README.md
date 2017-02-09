@@ -31,7 +31,9 @@ Modify this document and add your responses to the following prompts below.
 
 *Write a paragraph to describe the utility of your application. This applies equally for games. When would someone use your application? Why would they use your application?*
 
-Replace this with your paragraph(s).
+My application – named *Balance* – is a tool to track participation in classrooms built around student-centred discourse. Examples include Harkness discussions or problem-based learning mathematics classrooms. In such environments, there is a balanced discussion and contribution from all students in the room. The teacher facilitates but is not central to the discussion – to uncover key ideas, students are speaking to each other, not to the teacher.
+
+Within a discussion that is tracked, the user will know how much time each participant ended up speaking. Possible future functionality is an illustration of the discussion as an animated graph – each participant is a node and a line illustrates the "baton" or current speaker transferring from one participant to another. The user can scroll back and forth in the animated graph to see how the discussion evolved. For example, was the discussion balanced by time and by current speaker for the entire session? This would be a perfectly balanced graph. Was the discussion initially focused among a few participants, moving later to a different segment of participants? The graph would be heavy with lines among a few participants at first, later showing lines forming between another group of participants as they took over the discussion.
 
 ### What is your inspiration for this project?
 
