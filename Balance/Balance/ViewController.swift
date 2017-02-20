@@ -307,6 +307,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         buttonEndDiscussion.isEnabled = false
         buttonNewDiscussion.isEnabled = true
         updateTotalTime()
+        tableView.isUserInteractionEnabled = false
         discussionActive = false
         for (index, _) in students.enumerated() {
             make(speaker: index, active: true)
