@@ -12,6 +12,9 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     
     // MARK: Properties
     var studentNames : [Student] = []
+    var timer : Timer = Timer()
+    var currentSpeaker : Int = -1
+    @IBOutlet weak var tableView: UITableView!
     
     override var prefersStatusBarHidden: Bool {
         return true
@@ -31,7 +34,6 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         studentNames.append(Student(name: "Leder, Brendan", seconds: 0))
         studentNames.append(Student(name: "McCutcheon, Mark", seconds: 0))
         studentNames.append(Student(name: "Noble Curveira, Carlos", seconds: 0))
-        
         
     }
 
@@ -61,6 +63,53 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         
         // Return the cell for use in the table view
         return cell
+        
+    }
+    
+    // When a student is tapped, manage time tracking
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+        // Change current speaker to selected row
+        change(toSpeakerAt: indexPath.row)
+        
+    }
+    
+    // MARK: Balance logic
+    
+    // Switches the current speaker
+    func change(toSpeakerAt newSpeaker : Int) {
+        
+        // Change the current speaker
+        currentSpeaker = newSpeaker
+        
+        // Start the timer if needed
+        if !timer.isValid {
+            
+            timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(ViewController.tick), userInfo: nil, repeats: true)
+            
+        }
+        
+    }
+    
+    // Updates time tracking
+    func tick() {
+                
+        // Update the model
+        studentNames[currentSpeaker].seconds += 1
+        
+        // Get an indexPath for current speaker
+        let nsIndexPath = NSIndexPath(row: currentSpeaker, section: 0)
+        if let indexPath = nsIndexPath as? IndexPath {
+
+            // Update the cell in the table with the new time
+            if let cell = tableView.cellForRow(at: indexPath) {
+                cell.textLabel?.text = studentNames[indexPath.row].name
+                cell.detailTextLabel?.text = studentNames[indexPath.row].formattedTime
+            }
+
+        }
+        
+        
     }
 
 
