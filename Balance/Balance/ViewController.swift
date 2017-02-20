@@ -18,9 +18,9 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     var discussionActive : Bool = false
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var buttonEndDiscussion: UIButton!
-    @IBOutlet weak var buttonPauseDiscussion: UIButton!
+    @IBOutlet weak var buttonNewDiscussion: UIButton!
     @IBOutlet weak var labelDiscussionStatus: UILabel!
-    @IBOutlet weak var labelDiscussionDetail: UILabel!
+    @IBOutlet weak var buttonToggleDiscussion: UIButton!
     
     // MARK: Methods
     override func viewDidLoad() {
@@ -38,7 +38,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         students.append(Student(name: "Noble Curveira, Carlos"))
         
     }
-
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -46,10 +46,10 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     
     // MARK: UITableViewDataSource protocol required methods
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-
+        
         // Return the number of rows in the section
         return students.count
-
+        
     }
     
     // Control the content of the cell
@@ -89,31 +89,14 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
             
             // Start the timer
             timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(ViewController.tick), userInfo: nil, repeats: true)
-            
-            // Enable the end discussion button
-            buttonPauseDiscussion.isEnabled = true
-            buttonEndDiscussion.isEnabled = true
-            
-            // Clear all the times for each student
-            for (index, student) in students.enumerated() {
-                student.seconds = 0
-                updateTime(for: index)
-            }
-            
-            // Update discussion status and detail
-            totalTime = 0
-            labelDiscussionStatus.text = "Active"
-            labelDiscussionDetail.text = "0:00"
-            discussionActive = true
-                        
-        } else {
-            
-            // Restarting a paused discussion
-            buttonPauseDiscussion.isEnabled = true
-            labelDiscussionStatus.text = "Active"
-            updateTotalTime()
-            discussionActive = true
         }
+        
+        // Make the discussion active
+        discussionActive = true
+        buttonToggleDiscussion.isEnabled = true
+        buttonEndDiscussion.isEnabled = true
+        labelDiscussionStatus.isEnabled = true
+        updateTotalTime()
         
     }
     
@@ -130,14 +113,14 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
             
             // Update the view
             updateTime(for: currentSpeaker)
-
+            
         }
         
     }
     
     // Updates the time for the current speaker and discussion
     func updateTime(for speaker : Int) {
-
+        
         // Get an indexPath for this speaker
         let nsIndexPath = NSIndexPath(row: speaker, section: 0)
         if let indexPath = nsIndexPath as? IndexPath {
@@ -153,38 +136,111 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         // Update the total time
         updateTotalTime()
     }
-
+    
+    // Makes a given speaker active or inactive
+    func make(speaker : Int, active : Bool) {
+        
+        let nsIndexPath = NSIndexPath(row: speaker, section: 0)
+        if let indexPath = nsIndexPath as? IndexPath {
+            
+            // Update the cell in the table with the new time
+            if let cell = tableView.cellForRow(at: indexPath) {
+                
+                if active {
+                    cell.textLabel?.isEnabled = true
+                    cell.detailTextLabel?.isEnabled = true
+                } else {
+                    cell.textLabel?.isEnabled = false
+                    cell.detailTextLabel?.isEnabled = false
+                }
+                
+            }
+            
+        }
+        
+    }
+    
     // Update and format total time for discussion
     func updateTotalTime() {
         let minutes = String(totalTime / 60)
         let seconds = String(totalTime % 60)
         let paddedSeconds = String(repeating: "0", count: 2 - seconds.characters.count) + seconds
         let formattedTime = minutes + ":" + paddedSeconds
-        labelDiscussionDetail.text = formattedTime
+        labelDiscussionStatus.text = formattedTime
     }
     
     // MARK: Actions
     
+    @IBAction func startDiscussion(_ sender: Any) {
+        
+        // Allow a discussion to be tracked
+        buttonNewDiscussion.isEnabled = false
+        tableView.isUserInteractionEnabled = true
+        
+        // Clear all the times for each student
+        for (index, student) in students.enumerated() {
+            student.seconds = 0
+            updateTime(for: index)
+            make(speaker: index, active: true)
+        }
+        
+        // Update discussion status and detail
+        totalTime = 0
+        labelDiscussionStatus.text = "0:00"
+        
+    }
     @IBAction func endDiscussion(_ sender: Any) {
         
         // Stop the current discussion by closing the timer
         timer.invalidate()
-        buttonPauseDiscussion.isEnabled = false
+        labelDiscussionStatus.isEnabled = false
+        UIView.setAnimationsEnabled(false)
+        buttonToggleDiscussion.setTitle("❙❙", for: UIControlState.normal)
+        buttonToggleDiscussion.titleLabel?.font = UIFont(name: "Zapf Dingbats", size: 30.0)
+        buttonToggleDiscussion.setNeedsDisplay()
+        UIView.setAnimationsEnabled(true)
+        buttonToggleDiscussion.isEnabled = false
         buttonEndDiscussion.isEnabled = false
-        labelDiscussionStatus.text = "Complete"
+        buttonNewDiscussion.isEnabled = true
         updateTotalTime()
         discussionActive = false
+        for (index, _) in students.enumerated() {
+            make(speaker: index, active: false)
+        }
         
     }
-
-    @IBAction func pauseDiscussion(_ sender: Any) {
+    
+    @IBAction func toggleDiscussionState(_ sender: Any) {
         
-        // Pause the discussion
-        buttonPauseDiscussion.isEnabled = false
-        discussionActive = false
-        labelDiscussionStatus.text = "Paused"
-        updateTotalTime()
+        if discussionActive {
+            // Pause the currently active discussion
+            UIView.setAnimationsEnabled(false)
+            buttonToggleDiscussion.titleLabel?.font = UIFont(name: "Zapf Dingbats", size: 26.0)
+            buttonToggleDiscussion.setTitle("▶︎", for: UIControlState.normal)
+            buttonToggleDiscussion.setNeedsDisplay()
+            UIView.setAnimationsEnabled(true)
+            discussionActive = false
+            updateTotalTime()
+            labelDiscussionStatus.isEnabled = false
+            for (index, _) in students.enumerated() {
+                make(speaker: index, active: false)
+            }
+        } else {
+            // Re-enable the currently active discussion
+            UIView.setAnimationsEnabled(false)
+            buttonToggleDiscussion.setTitle("❙❙", for: UIControlState.normal)
+            buttonToggleDiscussion.titleLabel?.font = UIFont(name: "Zapf Dingbats", size: 30.0)
+            buttonToggleDiscussion.setNeedsDisplay()
+            UIView.setAnimationsEnabled(true)
+            
+            for (index, _) in students.enumerated() {
+                make(speaker: index, active: true)
+            }
+            buttonToggleDiscussion.isEnabled = false
+            
+        }
+        
     }
-
+    
 }
 
