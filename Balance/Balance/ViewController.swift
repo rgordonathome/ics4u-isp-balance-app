@@ -11,10 +11,11 @@ import UIKit
 class ViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
     // MARK: Properties
-    var studentNames : [Student] = []
+    var students : [Student] = []
     var timer : Timer = Timer()
     var currentSpeaker : Int = -1
     @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var buttonEndDiscussion: UIButton!
     
     override var prefersStatusBarHidden: Bool {
         return true
@@ -25,15 +26,15 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         super.viewDidLoad()
         
         // Load the list of students
-        studentNames.append(Student(name: "Bagga, Puneet", seconds: 0))
-        studentNames.append(Student(name: "Blackwell, Scott", seconds: 0))
-        studentNames.append(Student(name: "Byrne, Liam", seconds: 0))
-        studentNames.append(Student(name: "Elder, Andrew", seconds: 0))
-        studentNames.append(Student(name: "Goldsmith, Jeffrey", seconds: 0))
-        studentNames.append(Student(name: "Jones, Nicholas", seconds: 0))
-        studentNames.append(Student(name: "Leder, Brendan", seconds: 0))
-        studentNames.append(Student(name: "McCutcheon, Mark", seconds: 0))
-        studentNames.append(Student(name: "Noble Curveira, Carlos", seconds: 0))
+        students.append(Student(name: "Bagga, Puneet"))
+        students.append(Student(name: "Blackwell, Scott"))
+        students.append(Student(name: "Byrne, Liam"))
+        students.append(Student(name: "Elder, Andrew"))
+        students.append(Student(name: "Goldsmith, Jeffrey"))
+        students.append(Student(name: "Jones, Nicholas"))
+        students.append(Student(name: "Leder, Brendan"))
+        students.append(Student(name: "McCutcheon, Mark"))
+        students.append(Student(name: "Noble Curveira, Carlos"))
         
     }
 
@@ -46,7 +47,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
 
         // Return the number of rows in the section
-        return studentNames.count
+        return students.count
 
     }
     
@@ -58,8 +59,8 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath)
         
         // Configure the cell
-        cell.textLabel?.text = studentNames[indexPath.row].name
-        cell.detailTextLabel?.text = studentNames[indexPath.row].formattedTime
+        cell.textLabel?.text = students[indexPath.row].name
+        cell.detailTextLabel?.text = students[indexPath.row].formattedTime
         
         // Return the cell for use in the table view
         return cell
@@ -85,31 +86,57 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         // Start the timer if needed
         if !timer.isValid {
             
+            // Start the timer
             timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(ViewController.tick), userInfo: nil, repeats: true)
             
+            // Enable the end discussion button
+            buttonEndDiscussion.isEnabled = true
+            
+            // Clear all the times for each student
+            for (index, student) in students.enumerated() {
+                student.seconds = 0
+                updateTime(for: index)
+            }
+                        
         }
         
     }
     
     // Updates time tracking
     func tick() {
-                
-        // Update the model
-        studentNames[currentSpeaker].seconds += 1
         
-        // Get an indexPath for current speaker
-        let nsIndexPath = NSIndexPath(row: currentSpeaker, section: 0)
-        if let indexPath = nsIndexPath as? IndexPath {
+        // Update the model
+        students[currentSpeaker].seconds += 1
+        
+        // Update the view
+        updateTime(for: currentSpeaker)
+        
+    }
+    
+    // Updates the time for a given cell
+    func updateTime(for speaker : Int) {
 
+        // Get an indexPath for this speaker
+        let nsIndexPath = NSIndexPath(row: speaker, section: 0)
+        if let indexPath = nsIndexPath as? IndexPath {
+            
             // Update the cell in the table with the new time
             if let cell = tableView.cellForRow(at: indexPath) {
-                cell.textLabel?.text = studentNames[indexPath.row].name
-                cell.detailTextLabel?.text = studentNames[indexPath.row].formattedTime
+                cell.textLabel?.text = students[indexPath.row].name
+                cell.detailTextLabel?.text = students[indexPath.row].formattedTime
             }
-
+            
         }
         
+    }
+    
+    // MARK: Actions
+    
+    @IBAction func endDiscussion(_ sender: Any) {
         
+        // Stop the current discussion by closing the timer
+        timer.invalidate()
+        buttonEndDiscussion.isEnabled = false
     }
 
 

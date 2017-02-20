@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct Student {
+class Student {
     
     var name : String
     var seconds : Int
@@ -20,6 +20,11 @@ struct Student {
             let formattedTime = minutes + ":" + paddedSeconds
             return formattedTime
         }
+    }
+    
+    init(name : String) {
+        self.name = name
+        self.seconds = 0
     }
     
 }

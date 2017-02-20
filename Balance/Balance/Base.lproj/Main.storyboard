@@ -62,6 +62,9 @@
                                     <constraint firstAttribute="height" constant="50" id="hea-Hr-Z5Q"/>
                                 </constraints>
                                 <state key="normal" title="End Discussion"/>
+                                <connections>
+                                    <action selector="endDiscussion:" destination="BYZ-38-t0r" eventType="touchUpInside" id="N1L-3u-Kty"/>
+                                </connections>
                             </button>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -76,6 +79,7 @@
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="buttonEndDiscussion" destination="itm-2q-XDz" id="6z4-Je-isd"/>
                         <outlet property="tableView" destination="EWb-NB-CrH" id="rag-a8-WC7"/>
                     </connections>
                 </viewController>
