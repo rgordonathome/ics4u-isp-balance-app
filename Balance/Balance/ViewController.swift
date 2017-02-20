@@ -120,10 +120,9 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
             
             // Update cell colour for all speakers
             updateStats()
-
+            
             // Update the view for the speaker
             updateTime(for: currentSpeaker)
-            
             
         }
         
@@ -131,7 +130,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     
     // Updates the times for all students
     func updateStats() {
-
+        
         // Get the average time per student
         let averageSpeakingTime = Float(totalTime) / Float(students.count)
         
@@ -165,30 +164,41 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
             }
             updateColor(for: index)
         }
-
+        
         
     }
     
     
     // Updates the background colour for a speaker
     func updateColor(for speaker : Int, saturation : Float = 0.5) {
-
+        
         // Get an indexPath for this speaker
         let nsIndexPath = NSIndexPath(row: speaker, section: 0)
         if let indexPath = nsIndexPath as? IndexPath {
             
             // Update the cell in the table with the new color
             if let cell = tableView.cellForRow(at: indexPath) {
-                cell.backgroundColor = UIColor(hue: CGFloat(students[speaker].hue)/360, saturation: CGFloat(saturation), brightness: 1/100*50, alpha: 1/100*100)
-                cell.selectionStyle = UITableViewCellSelectionStyle.default
-                let bgColorView = UIView()
-                bgColorView.backgroundColor = UIColor(hue: CGFloat(students[speaker].hue)/360, saturation: CGFloat(saturation), brightness: 1/100*75, alpha: 1/100*100)
-                cell.selectedBackgroundView = bgColorView
+                
+                // Calculate the hue
+                let hue = CGFloat(students[speaker].hue)/360
+                
+                // Change colour when cell is not the currently selected cell
+                UIView.beginAnimations(nil, context: nil)
+                UIView.setAnimationDuration(0.5)
+                cell.backgroundColor = UIColor(hue: hue, saturation: CGFloat(saturation), brightness: 1/100*50, alpha: 1/100*100)
+                UIView.commitAnimations()
+                
+                // Change colour when cell IS the currently selected cell
+                UIView.beginAnimations(nil, context: nil)
+                UIView.setAnimationDuration(0.5)
+                cell.selectedBackgroundView?.layer.backgroundColor = UIColor(hue: hue, saturation: CGFloat(saturation), brightness: 1/100*50, alpha: 1/100*100).cgColor
+                UIView.commitAnimations()
+                
             }
             
         }
     }
-
+    
     // Resets the background colours
     func resetColors(for speaker : Int) {
         
@@ -207,7 +217,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
             
         }
     }
-
+    
     
     // Updates the time for the current speaker and discussion
     func updateTime(for speaker : Int) {
