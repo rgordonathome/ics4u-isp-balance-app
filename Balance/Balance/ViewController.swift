@@ -14,12 +14,11 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     var students : [Student] = []
     var timer : Timer = Timer()
     var currentSpeaker : Int = -1
+    var totalTime : Int = 0
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var buttonEndDiscussion: UIButton!
-    
-    override var prefersStatusBarHidden: Bool {
-        return true
-    }
+    @IBOutlet weak var labelDiscussionStatus: UILabel!
+    @IBOutlet weak var labelDiscussionDetail: UILabel!
     
     // MARK: Methods
     override func viewDidLoad() {
@@ -97,6 +96,11 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
                 student.seconds = 0
                 updateTime(for: index)
             }
+            
+            // Update discussion status and detail
+            totalTime = 0
+            labelDiscussionStatus.text = "Active Discussion"
+            labelDiscussionDetail.text = "0:00"
                         
         }
         
@@ -108,12 +112,15 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         // Update the model
         students[currentSpeaker].seconds += 1
         
+        // Track total discussion time
+        totalTime += 1
+        
         // Update the view
         updateTime(for: currentSpeaker)
         
     }
     
-    // Updates the time for a given cell
+    // Updates the time for the current speaker and discussion
     func updateTime(for speaker : Int) {
 
         // Get an indexPath for this speaker
@@ -128,6 +135,12 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
             
         }
         
+        // Update the total time
+        let minutes = String(totalTime / 60)
+        let seconds = String(totalTime % 60)
+        let paddedSeconds = String(repeating: "0", count: 2 - seconds.characters.count) + seconds
+        let formattedTime = minutes + ":" + paddedSeconds
+        labelDiscussionDetail.text = formattedTime
     }
     
     // MARK: Actions
@@ -137,6 +150,8 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         // Stop the current discussion by closing the timer
         timer.invalidate()
         buttonEndDiscussion.isEnabled = false
+        labelDiscussionStatus.text = "Discussion Ended"
+        
     }
 
 

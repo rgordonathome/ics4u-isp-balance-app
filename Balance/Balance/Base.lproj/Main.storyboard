@@ -6,6 +6,7 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -22,7 +23,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="EWb-NB-CrH" userLabel="tableViewStudents">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="617"/>
+                                <rect key="frame" x="0.0" y="111.5" width="375" height="505.5"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <inset key="separatorInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 <prototypes>
@@ -66,20 +67,42 @@
                                     <action selector="endDiscussion:" destination="BYZ-38-t0r" eventType="touchUpInside" id="N1L-3u-Kty"/>
                                 </connections>
                             </button>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="Q2b-IS-cgp">
+                                <rect key="frame" x="0.0" y="40" width="375" height="51.5"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Discussion Not Active" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="i0t-mO-osz" userLabel="labelDiscussionStatus">
+                                        <rect key="frame" x="0.0" y="0.0" width="375" height="33.5"/>
+                                        <fontDescription key="fontDescription" style="UICTFontTextStyleTitle1"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Tap a name to start a discussion" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0e7-v4-bTK" userLabel="labelDiscussionDetail">
+                                        <rect key="frame" x="0.0" y="33.5" width="375" height="18"/>
+                                        <fontDescription key="fontDescription" style="UICTFontTextStyleSubhead"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                            </stackView>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="itm-2q-XDz" firstAttribute="bottom" secondItem="wfy-db-euE" secondAttribute="top" id="5Hk-2F-ZtH"/>
                             <constraint firstItem="itm-2q-XDz" firstAttribute="trailing" secondItem="8bC-Xf-vdC" secondAttribute="trailing" id="8eo-Dy-2d8"/>
-                            <constraint firstItem="EWb-NB-CrH" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="AE5-37-hcU"/>
+                            <constraint firstItem="Q2b-IS-cgp" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="topMargin" constant="40" id="9Ou-UI-uUH"/>
                             <constraint firstItem="EWb-NB-CrH" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="C9H-hH-f2i"/>
+                            <constraint firstItem="EWb-NB-CrH" firstAttribute="top" secondItem="Q2b-IS-cgp" secondAttribute="bottom" constant="20" id="Ff6-w4-uRm"/>
                             <constraint firstItem="itm-2q-XDz" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="Rh9-Le-rAB"/>
+                            <constraint firstItem="Q2b-IS-cgp" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="UF1-nF-1j3"/>
                             <constraint firstItem="EWb-NB-CrH" firstAttribute="trailing" secondItem="8bC-Xf-vdC" secondAttribute="trailing" id="WUW-rX-1aV"/>
+                            <constraint firstItem="Q2b-IS-cgp" firstAttribute="trailing" secondItem="8bC-Xf-vdC" secondAttribute="trailing" id="y2O-D6-N4o"/>
                             <constraint firstItem="itm-2q-XDz" firstAttribute="top" secondItem="EWb-NB-CrH" secondAttribute="bottom" id="zpa-7H-G7e"/>
                         </constraints>
                     </view>
                     <connections>
                         <outlet property="buttonEndDiscussion" destination="itm-2q-XDz" id="6z4-Je-isd"/>
+                        <outlet property="labelDiscussionDetail" destination="0e7-v4-bTK" id="Hff-o6-MAK"/>
+                        <outlet property="labelDiscussionStatus" destination="i0t-mO-osz" id="VyS-2Q-N3c"/>
                         <outlet property="tableView" destination="EWb-NB-CrH" id="rag-a8-WC7"/>
                     </connections>
                 </viewController>
