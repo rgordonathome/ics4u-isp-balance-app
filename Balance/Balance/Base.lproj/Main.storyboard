@@ -21,8 +21,8 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="EWb-NB-CrH">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="EWb-NB-CrH" userLabel="tableViewStudents">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="617"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <inset key="separatorInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 <prototypes>
@@ -56,13 +56,23 @@
                                     <outlet property="delegate" destination="BYZ-38-t0r" id="lDl-Ct-HRk"/>
                                 </connections>
                             </tableView>
+                            <button opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="itm-2q-XDz" userLabel="buttonEndDiscussion">
+                                <rect key="frame" x="0.0" y="617" width="375" height="50"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="50" id="hea-Hr-Z5Q"/>
+                                </constraints>
+                                <state key="normal" title="End Discussion"/>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
+                            <constraint firstItem="itm-2q-XDz" firstAttribute="bottom" secondItem="wfy-db-euE" secondAttribute="top" id="5Hk-2F-ZtH"/>
+                            <constraint firstItem="itm-2q-XDz" firstAttribute="trailing" secondItem="8bC-Xf-vdC" secondAttribute="trailing" id="8eo-Dy-2d8"/>
                             <constraint firstItem="EWb-NB-CrH" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="AE5-37-hcU"/>
                             <constraint firstItem="EWb-NB-CrH" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="C9H-hH-f2i"/>
-                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="EWb-NB-CrH" secondAttribute="bottom" id="CzB-Ix-xtI"/>
-                            <constraint firstAttribute="trailing" secondItem="EWb-NB-CrH" secondAttribute="trailing" id="WUW-rX-1aV"/>
+                            <constraint firstItem="itm-2q-XDz" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="Rh9-Le-rAB"/>
+                            <constraint firstItem="EWb-NB-CrH" firstAttribute="trailing" secondItem="8bC-Xf-vdC" secondAttribute="trailing" id="WUW-rX-1aV"/>
+                            <constraint firstItem="itm-2q-XDz" firstAttribute="top" secondItem="EWb-NB-CrH" secondAttribute="bottom" id="zpa-7H-G7e"/>
                         </constraints>
                     </view>
                 </viewController>
