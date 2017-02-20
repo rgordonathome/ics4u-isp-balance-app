@@ -57,26 +57,16 @@
                                     <outlet property="delegate" destination="BYZ-38-t0r" id="lDl-Ct-HRk"/>
                                 </connections>
                             </tableView>
-                            <button opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="itm-2q-XDz" userLabel="buttonEndDiscussion">
-                                <rect key="frame" x="0.0" y="617" width="375" height="50"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="50" id="hea-Hr-Z5Q"/>
-                                </constraints>
-                                <state key="normal" title="End Discussion"/>
-                                <connections>
-                                    <action selector="endDiscussion:" destination="BYZ-38-t0r" eventType="touchUpInside" id="N1L-3u-Kty"/>
-                                </connections>
-                            </button>
-                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="Q2b-IS-cgp">
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="Q2b-IS-cgp" userLabel="stackViewLabels">
                                 <rect key="frame" x="0.0" y="40" width="375" height="51.5"/>
                                 <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Discussion Not Active" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="i0t-mO-osz" userLabel="labelDiscussionStatus">
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Balance" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="i0t-mO-osz" userLabel="labelDiscussionStatus">
                                         <rect key="frame" x="0.0" y="0.0" width="375" height="33.5"/>
                                         <fontDescription key="fontDescription" style="UICTFontTextStyleTitle1"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Tap a name to start a discussion" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0e7-v4-bTK" userLabel="labelDiscussionDetail">
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Tap a name to begin discussion" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0e7-v4-bTK" userLabel="labelDiscussionDetail">
                                         <rect key="frame" x="0.0" y="33.5" width="375" height="18"/>
                                         <fontDescription key="fontDescription" style="UICTFontTextStyleSubhead"/>
                                         <nil key="textColor"/>
@@ -84,23 +74,46 @@
                                     </label>
                                 </subviews>
                             </stackView>
+                            <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="pfu-nv-3me" userLabel="stackViewButtons">
+                                <rect key="frame" x="0.0" y="617" width="375" height="50"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Vwi-tF-Bj3" userLabel="buttonPauseDiscussion">
+                                        <rect key="frame" x="0.0" y="0.0" width="187.5" height="50"/>
+                                        <state key="normal" title="Pause"/>
+                                        <connections>
+                                            <action selector="pauseDiscussion:" destination="BYZ-38-t0r" eventType="touchUpInside" id="bCM-LE-ivj"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="itm-2q-XDz" userLabel="buttonEndDiscussion">
+                                        <rect key="frame" x="187.5" y="0.0" width="187.5" height="50"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="50" id="hea-Hr-Z5Q"/>
+                                        </constraints>
+                                        <state key="normal" title="End"/>
+                                        <connections>
+                                            <action selector="endDiscussion:" destination="BYZ-38-t0r" eventType="touchUpInside" id="N1L-3u-Kty"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                            </stackView>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
-                            <constraint firstItem="itm-2q-XDz" firstAttribute="bottom" secondItem="wfy-db-euE" secondAttribute="top" id="5Hk-2F-ZtH"/>
-                            <constraint firstItem="itm-2q-XDz" firstAttribute="trailing" secondItem="8bC-Xf-vdC" secondAttribute="trailing" id="8eo-Dy-2d8"/>
+                            <constraint firstItem="pfu-nv-3me" firstAttribute="top" secondItem="EWb-NB-CrH" secondAttribute="bottom" id="51N-Lr-UrW"/>
                             <constraint firstItem="Q2b-IS-cgp" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="topMargin" constant="40" id="9Ou-UI-uUH"/>
                             <constraint firstItem="EWb-NB-CrH" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="C9H-hH-f2i"/>
-                            <constraint firstItem="EWb-NB-CrH" firstAttribute="top" secondItem="Q2b-IS-cgp" secondAttribute="bottom" constant="20" id="Ff6-w4-uRm"/>
-                            <constraint firstItem="itm-2q-XDz" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="Rh9-Le-rAB"/>
+                            <constraint firstItem="Q2b-IS-cgp" firstAttribute="bottom" secondItem="EWb-NB-CrH" secondAttribute="top" constant="-20" id="Ff6-w4-uRm"/>
+                            <constraint firstItem="pfu-nv-3me" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="Pxk-7o-Bx7"/>
                             <constraint firstItem="Q2b-IS-cgp" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="UF1-nF-1j3"/>
                             <constraint firstItem="EWb-NB-CrH" firstAttribute="trailing" secondItem="8bC-Xf-vdC" secondAttribute="trailing" id="WUW-rX-1aV"/>
+                            <constraint firstItem="pfu-nv-3me" firstAttribute="trailing" secondItem="8bC-Xf-vdC" secondAttribute="trailing" id="dRb-vD-eJu"/>
+                            <constraint firstItem="pfu-nv-3me" firstAttribute="bottom" secondItem="8bC-Xf-vdC" secondAttribute="bottomMargin" id="pRb-XN-o0B"/>
                             <constraint firstItem="Q2b-IS-cgp" firstAttribute="trailing" secondItem="8bC-Xf-vdC" secondAttribute="trailing" id="y2O-D6-N4o"/>
-                            <constraint firstItem="itm-2q-XDz" firstAttribute="top" secondItem="EWb-NB-CrH" secondAttribute="bottom" id="zpa-7H-G7e"/>
                         </constraints>
                     </view>
                     <connections>
                         <outlet property="buttonEndDiscussion" destination="itm-2q-XDz" id="6z4-Je-isd"/>
+                        <outlet property="buttonPauseDiscussion" destination="Vwi-tF-Bj3" id="Rlm-Gr-Umd"/>
                         <outlet property="labelDiscussionDetail" destination="0e7-v4-bTK" id="Hff-o6-MAK"/>
                         <outlet property="labelDiscussionStatus" destination="i0t-mO-osz" id="VyS-2Q-N3c"/>
                         <outlet property="tableView" destination="EWb-NB-CrH" id="rag-a8-WC7"/>

@@ -15,8 +15,10 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     var timer : Timer = Timer()
     var currentSpeaker : Int = -1
     var totalTime : Int = 0
+    var discussionActive : Bool = false
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var buttonEndDiscussion: UIButton!
+    @IBOutlet weak var buttonPauseDiscussion: UIButton!
     @IBOutlet weak var labelDiscussionStatus: UILabel!
     @IBOutlet weak var labelDiscussionDetail: UILabel!
     
@@ -89,6 +91,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
             timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(ViewController.tick), userInfo: nil, repeats: true)
             
             // Enable the end discussion button
+            buttonPauseDiscussion.isEnabled = true
             buttonEndDiscussion.isEnabled = true
             
             // Clear all the times for each student
@@ -99,24 +102,36 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
             
             // Update discussion status and detail
             totalTime = 0
-            labelDiscussionStatus.text = "Active Discussion"
+            labelDiscussionStatus.text = "Active"
             labelDiscussionDetail.text = "0:00"
+            discussionActive = true
                         
+        } else {
+            
+            // Restarting a paused discussion
+            buttonPauseDiscussion.isEnabled = true
+            labelDiscussionStatus.text = "Active"
+            updateTotalTime()
+            discussionActive = true
         }
         
     }
     
-    // Updates time tracking
+    // Updates time tracking if the discussion is not paused or ended
     func tick() {
         
-        // Update the model
-        students[currentSpeaker].seconds += 1
-        
-        // Track total discussion time
-        totalTime += 1
-        
-        // Update the view
-        updateTime(for: currentSpeaker)
+        if discussionActive {
+            
+            // Update the model
+            students[currentSpeaker].seconds += 1
+            
+            // Track total discussion time
+            totalTime += 1
+            
+            // Update the view
+            updateTime(for: currentSpeaker)
+
+        }
         
     }
     
@@ -136,6 +151,11 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         }
         
         // Update the total time
+        updateTotalTime()
+    }
+
+    // Update and format total time for discussion
+    func updateTotalTime() {
         let minutes = String(totalTime / 60)
         let seconds = String(totalTime % 60)
         let paddedSeconds = String(repeating: "0", count: 2 - seconds.characters.count) + seconds
@@ -149,11 +169,22 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         
         // Stop the current discussion by closing the timer
         timer.invalidate()
+        buttonPauseDiscussion.isEnabled = false
         buttonEndDiscussion.isEnabled = false
-        labelDiscussionStatus.text = "Discussion Ended"
+        labelDiscussionStatus.text = "Complete"
+        updateTotalTime()
+        discussionActive = false
         
     }
 
+    @IBAction func pauseDiscussion(_ sender: Any) {
+        
+        // Pause the discussion
+        buttonPauseDiscussion.isEnabled = false
+        discussionActive = false
+        labelDiscussionStatus.text = "Paused"
+        updateTotalTime()
+    }
 
 }
 
