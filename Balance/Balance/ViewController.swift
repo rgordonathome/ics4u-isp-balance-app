@@ -137,19 +137,31 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         for (index, student) in students.enumerated() {
             
             // Get this student's hue
-            var percentOfAverage = Float(student.seconds) / averageSpeakingTime
-            if percentOfAverage > 2 {
-                percentOfAverage = 2
+            if student.seconds > 0 {
+                var percentOfAverage = Float(student.seconds) / averageSpeakingTime
+                print("Percent of average for student \(index) is \(percentOfAverage)")
+                if percentOfAverage <= 1 {
+                    // Calculate hue as percentage of ideal (120 degrees is green)
+                    student.hue = 120 * percentOfAverage
+                } else {
+                    // Count how far above average this person is
+                    percentOfAverage -= 1
+                    // Move back toward red (student is above average participant
+                    student.hue = 120 - 120 * percentOfAverage
+                }
+                // Make sure student can go no worse than pure red
+                if student.hue < 0 {
+                    student.hue = 0
+                }
+                updateColor(for: index)
             }
-            student.hue = 240 - 120 * percentOfAverage
-            updateColor(for: index)
         }
         
         
     }
     
     // Updates the background colour for a speaker
-    func updateColor(for speaker : Int, saturation : Float = 0.5) {
+    func updateColor(for speaker : Int, saturation : Float = 0.75) {
         
         // Get an indexPath for this speaker
         let nsIndexPath = NSIndexPath(row: speaker, section: 0)
@@ -163,18 +175,17 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
                     
                     // Calculate the hue
                     let hue = CGFloat(students[speaker].hue)/360
-                    print(students[speaker].hue)
                     
                     // Change colour when cell is not the currently selected cell
                     UIView.beginAnimations(nil, context: nil)
                     UIView.setAnimationDuration(0.5)
-                    cell.backgroundColor = UIColor(hue: hue, saturation: CGFloat(saturation), brightness: 1/100*50, alpha: 1/100*100)
+                    cell.backgroundColor = UIColor(hue: hue, saturation: CGFloat(saturation), brightness: 1/100*90, alpha: 1/100*100)
                     UIView.commitAnimations()
                     
                     // Change colour when cell IS the currently selected cell
                     UIView.beginAnimations(nil, context: nil)
                     UIView.setAnimationDuration(0.5)
-                    cell.selectedBackgroundView?.layer.backgroundColor = UIColor(hue: hue, saturation: CGFloat(saturation), brightness: 1/100*50, alpha: 1/100*100).cgColor
+                    cell.selectedBackgroundView?.layer.backgroundColor = UIColor(hue: hue, saturation: CGFloat(saturation), brightness: 1/100*90, alpha: 1/100*100).cgColor
                     UIView.commitAnimations()
                 }
                 
@@ -272,6 +283,8 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         
         // Update discussion status and detail
         totalTime = 0
+        activeSpeakers = 0
+        currentSpeaker = -1
         labelDiscussionStatus.text = "0:00"
         
     }
