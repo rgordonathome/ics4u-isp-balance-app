@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		811CB1121E5B102C00A4910F /* Student.swift in Sources */ = {isa = PBXBuildFile; fileRef = 811CB1111E5B102C00A4910F /* Student.swift */; };
 		8193EBF21E4D169700ECEFF9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8193EBF11E4D169700ECEFF9 /* AppDelegate.swift */; };
 		8193EBF41E4D169700ECEFF9 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8193EBF31E4D169700ECEFF9 /* ViewController.swift */; };
 		8193EBF71E4D169700ECEFF9 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8193EBF51E4D169700ECEFF9 /* Main.storyboard */; };
@@ -21,6 +22,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		811CB1111E5B102C00A4910F /* Student.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Student.swift; sourceTree = "<group>"; };
 		8193EBEE1E4D169700ECEFF9 /* Balance.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Balance.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8193EBF11E4D169700ECEFF9 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		8193EBF31E4D169700ECEFF9 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -70,6 +72,7 @@
 				8193EBF11E4D169700ECEFF9 /* AppDelegate.swift */,
 				8193EBF31E4D169700ECEFF9 /* ViewController.swift */,
 				8193EBF51E4D169700ECEFF9 /* Main.storyboard */,
+				811CB1111E5B102C00A4910F /* Student.swift */,
 				8193EBF81E4D169700ECEFF9 /* Assets.xcassets */,
 				8193EBFA1E4D169700ECEFF9 /* LaunchScreen.storyboard */,
 				8193EBFD1E4D169700ECEFF9 /* Info.plist */,
@@ -171,6 +174,7 @@
 				8193EC111E4D176A00ECEFF9 /* README.md in Sources */,
 				8193EBF41E4D169700ECEFF9 /* ViewController.swift in Sources */,
 				8193EBF21E4D169700ECEFF9 /* AppDelegate.swift in Sources */,
+				811CB1121E5B102C00A4910F /* Student.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

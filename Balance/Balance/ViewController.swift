@@ -11,7 +11,7 @@ import UIKit
 class ViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
     // MARK: Properties
-    var studentNames = ["Bagga, Puneet", "Blackwell, Scott", "Byrne, Liam", "Elder, Andrew", "Goldsmith, Jeffrey", "Jones, Nicholas", "Leder, Brendan", "McCutcheon, Mark", "Noble Curveira, Carlos"]
+    var studentNames : [Student] = []
     
     override var prefersStatusBarHidden: Bool {
         return true
@@ -20,7 +20,19 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     // MARK: Methods
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
+        
+        // Load the list of students
+        studentNames.append(Student(name: "Bagga, Puneet", seconds: 0))
+        studentNames.append(Student(name: "Blackwell, Scott", seconds: 0))
+        studentNames.append(Student(name: "Byrne, Liam", seconds: 0))
+        studentNames.append(Student(name: "Elder, Andrew", seconds: 0))
+        studentNames.append(Student(name: "Goldsmith, Jeffrey", seconds: 0))
+        studentNames.append(Student(name: "Jones, Nicholas", seconds: 0))
+        studentNames.append(Student(name: "Leder, Brendan", seconds: 0))
+        studentNames.append(Student(name: "McCutcheon, Mark", seconds: 0))
+        studentNames.append(Student(name: "Noble Curveira, Carlos", seconds: 0))
+        
+        
     }
 
     override func didReceiveMemoryWarning() {
@@ -44,8 +56,8 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath)
         
         // Configure the cell
-        cell.textLabel?.text = studentNames[indexPath.row]
-        cell.detailTextLabel?.text = "0:00" // Placeholder for now
+        cell.textLabel?.text = studentNames[indexPath.row].name
+        cell.detailTextLabel?.text = studentNames[indexPath.row].formattedTime
         
         // Return the cell for use in the table view
         return cell
