@@ -15,6 +15,8 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     var timer : Timer = Timer()
     var currentSpeaker : Int = -1
     var totalTime : Int = 0
+    var maxTime : Int = 0
+    var minTime : Int = 0
     var discussionActive : Bool = false
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var buttonEndDiscussion: UIButton!
@@ -111,12 +113,101 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
             // Track total discussion time
             totalTime += 1
             
-            // Update the view
+            // Track longest speaking time
+            if students[currentSpeaker].seconds > maxTime {
+                maxTime = students[currentSpeaker].seconds
+            }
+            
+            // Update cell colour for all speakers
+            updateStats()
+
+            // Update the view for the speaker
             updateTime(for: currentSpeaker)
+            
             
         }
         
     }
+    
+    // Updates the times for all students
+    func updateStats() {
+
+        // Get the average time per student
+        let averageSpeakingTime = Float(totalTime) / Float(students.count)
+        
+        // Get the overall range
+        let range = Float(maxTime - minTime)
+        
+        // Get the overall range above average
+        let aboveRange = Float(range - averageSpeakingTime)
+        
+        // Get the overall range below average
+        let belowRange = Float(range - aboveRange)
+        
+        // Update the colour for each student
+        for (index, student) in students.enumerated() {
+            
+            // Get this student's hue
+            let offset = Float(student.seconds) - averageSpeakingTime
+            if offset < 0 {
+                
+                // Percentage below average within below average range
+                let percentBelow = -offset/belowRange
+                let degreesBelow = 120 * percentBelow
+                student.hue = 240 - degreesBelow + 120
+                
+            } else {
+                
+                // Percentage above average within above average range
+                let percentAbove = offset/aboveRange
+                let degreesAbove = 120 * percentAbove
+                student.hue = 120 - degreesAbove
+            }
+            updateColor(for: index)
+        }
+
+        
+    }
+    
+    
+    // Updates the background colour for a speaker
+    func updateColor(for speaker : Int, saturation : Float = 0.5) {
+
+        // Get an indexPath for this speaker
+        let nsIndexPath = NSIndexPath(row: speaker, section: 0)
+        if let indexPath = nsIndexPath as? IndexPath {
+            
+            // Update the cell in the table with the new color
+            if let cell = tableView.cellForRow(at: indexPath) {
+                cell.backgroundColor = UIColor(hue: CGFloat(students[speaker].hue)/360, saturation: CGFloat(saturation), brightness: 1/100*50, alpha: 1/100*100)
+                cell.selectionStyle = UITableViewCellSelectionStyle.default
+                let bgColorView = UIView()
+                bgColorView.backgroundColor = UIColor(hue: CGFloat(students[speaker].hue)/360, saturation: CGFloat(saturation), brightness: 1/100*75, alpha: 1/100*100)
+                cell.selectedBackgroundView = bgColorView
+            }
+            
+        }
+    }
+
+    // Resets the background colours
+    func resetColors(for speaker : Int) {
+        
+        // Get an indexPath for this speaker
+        let nsIndexPath = NSIndexPath(row: speaker, section: 0)
+        if let indexPath = nsIndexPath as? IndexPath {
+            
+            // Update the cell in the table with the new color
+            if let cell = tableView.cellForRow(at: indexPath) {
+                cell.backgroundColor = UIColor.white
+                cell.selectionStyle = UITableViewCellSelectionStyle.default
+                let bgColorView = UIView()
+                bgColorView.backgroundColor = UIColor.lightGray
+                cell.selectedBackgroundView = bgColorView
+            }
+            
+        }
+    }
+
     
     // Updates the time for the current speaker and discussion
     func updateTime(for speaker : Int) {
@@ -182,10 +273,13 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
             student.seconds = 0
             updateTime(for: index)
             make(speaker: index, active: true)
+            resetColors(for: index)
         }
         
         // Update discussion status and detail
         totalTime = 0
+        minTime = 0
+        maxTime = 0
         labelDiscussionStatus.text = "0:00"
         
     }
@@ -205,7 +299,14 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         updateTotalTime()
         discussionActive = false
         for (index, _) in students.enumerated() {
-            make(speaker: index, active: false)
+            make(speaker: index, active: true)
+            updateColor(for: index, saturation: 0.3)
+        }
+        
+        // De-select the last speaker in the conversation (so it doesn't carry over to new discussion)
+        let nsIndexPath = NSIndexPath(row: currentSpeaker, section: 0)
+        if let indexPath = nsIndexPath as? IndexPath {
+            tableView.deselectRow(at: indexPath, animated: false)
         }
         
     }
@@ -222,8 +323,10 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
             discussionActive = false
             updateTotalTime()
             labelDiscussionStatus.isEnabled = false
+            tableView.isUserInteractionEnabled = false
             for (index, _) in students.enumerated() {
-                make(speaker: index, active: false)
+                make(speaker: index, active: true)
+                updateColor(for: index, saturation: 0.3)
             }
         } else {
             // Re-enable the currently active discussion
@@ -232,9 +335,11 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
             buttonToggleDiscussion.titleLabel?.font = UIFont(name: "Zapf Dingbats", size: 30.0)
             buttonToggleDiscussion.setNeedsDisplay()
             UIView.setAnimationsEnabled(true)
+            tableView.isUserInteractionEnabled = true
             
             for (index, _) in students.enumerated() {
                 make(speaker: index, active: true)
+                updateColor(for: index, saturation: 0.5)
             }
             buttonToggleDiscussion.isEnabled = false
             
