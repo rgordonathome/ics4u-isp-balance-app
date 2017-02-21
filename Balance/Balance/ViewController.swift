@@ -86,9 +86,9 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
             timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(ViewController.tick), userInfo: nil, repeats: true)
         }
         
-//        let oldPosition = NSIndexPath(row: 5, section: 0) as IndexPath
-//        let newPosition = NSIndexPath(row: 3, section: 0) as IndexPath
-//        tableView.moveRow(at: oldPosition, to: newPosition)
+        //        let oldPosition = NSIndexPath(row: 5, section: 0) as IndexPath
+        //        let newPosition = NSIndexPath(row: 3, section: 0) as IndexPath
+        //        tableView.moveRow(at: oldPosition, to: newPosition)
         
         // Make the discussion active
         discussionActive = true
@@ -138,7 +138,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         
         // Update color for this student
         updateColor(for: currentSpeaker)
-
+        
         // Find the current speaker in the new array so that the updates to the table reflect new position
         for (index, student) in sortedList.enumerated() {
             if student.currentSpeaker == 1 {
@@ -149,7 +149,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
                 if currentSpeaker != index {
                     
                     tableView.moveRow(at: oldPosition, to: newPosition)
-
+                    
                 }
                 
                 // Update the current speaker
@@ -161,7 +161,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         // NOTE: No need to invoke tableView.reloadData since we took care of moving the student just above this section
         students = sortedList
         //tableView.reloadData()
-
+        
     }
     
     // Reset the student list
@@ -178,7 +178,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         students.append(Student(name: "Leder, Brendan", id: 7))
         students.append(Student(name: "McCutcheon, Mark", id: 8))
         students.append(Student(name: "Noble Curveira, Carlos", id: 9))
-
+        
     }
     
     // Updates the times for all students
@@ -208,10 +208,10 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
                     student.hue = 0
                 }
             }
-
+            
             // Update color for this student
             updateColor(for: index)
-
+            
         }
         
         
@@ -221,50 +221,48 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     func updateColor(for speaker : Int, saturation : Float = 0.75) {
         
         // Get an indexPath for this speaker
-        let nsIndexPath = NSIndexPath(row: speaker, section: 0)
-        if let indexPath = nsIndexPath as? IndexPath {
+        let indexPath = NSIndexPath(row: speaker, section: 0) as IndexPath
+        
+        // Update cell colour if student has been active
+        if students[speaker].seconds > 0 {
             
-            // Update cell colour if student has been active
-            if students[speaker].seconds > 0 {
+            // Update the cell in the table with the new color
+            if let cell = tableView.cellForRow(at: indexPath) {
                 
-                // Update the cell in the table with the new color
-                if let cell = tableView.cellForRow(at: indexPath) {
-                    
-                    // Calculate the hue
-                    let hue = CGFloat(students[speaker].hue)/360
-                    
-                    // Change colour when cell is not the currently selected cell
-                    UIView.beginAnimations(nil, context: nil)
-                    UIView.setAnimationDuration(0.5)
-                    cell.backgroundColor = UIColor(hue: hue, saturation: CGFloat(saturation), brightness: 1/100*90, alpha: 1/100*100)
-                    UIView.commitAnimations()
-                    
-                    // Change colour when cell IS the currently selected cell
-                    UIView.beginAnimations(nil, context: nil)
-                    UIView.setAnimationDuration(0.5)
-                    cell.selectedBackgroundView?.layer.backgroundColor = UIColor(hue: hue, saturation: CGFloat(saturation), brightness: 1/100*90, alpha: 1/100*100).cgColor
-                    UIView.commitAnimations()
-                }
+                // Calculate the hue
+                let hue = CGFloat(students[speaker].hue)/360
                 
-            } else {
+                // Change colour when cell is not the currently selected cell
+                UIView.beginAnimations(nil, context: nil)
+                UIView.setAnimationDuration(0.5)
+                cell.backgroundColor = UIColor(hue: hue, saturation: CGFloat(saturation), brightness: 1/100*90, alpha: 1/100*100)
+                UIView.commitAnimations()
                 
-                // Update the cell in the table with default color
-                if let cell = tableView.cellForRow(at: indexPath) {
-                    
-                    // Change colour when cell is not the currently selected cell
-                    UIView.beginAnimations(nil, context: nil)
-                    UIView.setAnimationDuration(0.5)
-                    cell.backgroundColor = UIColor.white
-                    UIView.commitAnimations()
-                    
-                    // Change colour when cell IS the currently selected cell
-                    UIView.beginAnimations(nil, context: nil)
-                    UIView.setAnimationDuration(0.5)
-                    cell.selectedBackgroundView?.layer.backgroundColor = UIColor.white.cgColor
-                    UIView.commitAnimations()
-                }
-                
+                // Change colour when cell IS the currently selected cell
+                UIView.beginAnimations(nil, context: nil)
+                UIView.setAnimationDuration(0.5)
+                cell.selectedBackgroundView?.layer.backgroundColor = UIColor(hue: hue, saturation: CGFloat(saturation), brightness: 1/100*90, alpha: 1/100*100).cgColor
+                UIView.commitAnimations()
             }
+            
+        } else {
+            
+            // Update the cell in the table with default color
+            if let cell = tableView.cellForRow(at: indexPath) {
+                
+                // Change colour when cell is not the currently selected cell
+                UIView.beginAnimations(nil, context: nil)
+                UIView.setAnimationDuration(0.5)
+                cell.backgroundColor = UIColor.white
+                UIView.commitAnimations()
+                
+                // Change colour when cell IS the currently selected cell
+                UIView.beginAnimations(nil, context: nil)
+                UIView.setAnimationDuration(0.5)
+                cell.selectedBackgroundView?.layer.backgroundColor = UIColor.white.cgColor
+                UIView.commitAnimations()
+            }
+            
             
         }
     }
@@ -273,19 +271,16 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     func resetColors(for speaker : Int) {
         
         // Get an indexPath for this speaker
-        let nsIndexPath = NSIndexPath(row: speaker, section: 0)
-        if let indexPath = nsIndexPath as? IndexPath {
-            
-            // Update the cell in the table with the new color
-            if let cell = tableView.cellForRow(at: indexPath) {
-                cell.backgroundColor = UIColor.white
-                cell.selectionStyle = UITableViewCellSelectionStyle.default
-                let bgColorView = UIView()
-                bgColorView.backgroundColor = UIColor.lightGray
-                cell.selectedBackgroundView = bgColorView
-            }
-            
+        let indexPath = NSIndexPath(row: speaker, section: 0) as IndexPath
+        // Update the cell in the table with the new color
+        if let cell = tableView.cellForRow(at: indexPath) {
+            cell.backgroundColor = UIColor.white
+            cell.selectionStyle = UITableViewCellSelectionStyle.default
+            let bgColorView = UIView()
+            bgColorView.backgroundColor = UIColor.lightGray
+            cell.selectedBackgroundView = bgColorView
         }
+        
     }
     
     
@@ -293,15 +288,12 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     func updateTime(for speaker : Int) {
         
         // Get an indexPath for this speaker
-        let nsIndexPath = NSIndexPath(row: speaker, section: 0)
-        if let indexPath = nsIndexPath as? IndexPath {
-            
-            // Update the cell in the table with the new time
-            if let cell = tableView.cellForRow(at: indexPath) {
-                cell.textLabel?.text = students[indexPath.row].name
-                cell.detailTextLabel?.text = students[indexPath.row].formattedTime
-            }
-            
+        let indexPath = NSIndexPath(row: speaker, section: 0) as IndexPath
+        
+        // Update the cell in the table with the new time
+        if let cell = tableView.cellForRow(at: indexPath) {
+            cell.textLabel?.text = students[indexPath.row].name
+            cell.detailTextLabel?.text = students[indexPath.row].formattedTime
         }
         
         // Update the total time
@@ -311,20 +303,17 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     // Makes a given speaker active or inactive
     func make(speaker : Int, active : Bool) {
         
-        let nsIndexPath = NSIndexPath(row: speaker, section: 0)
-        if let indexPath = nsIndexPath as? IndexPath {
+        let indexPath = NSIndexPath(row: speaker, section: 0) as IndexPath
+        
+        // Update the cell in the table with the new time
+        if let cell = tableView.cellForRow(at: indexPath) {
             
-            // Update the cell in the table with the new time
-            if let cell = tableView.cellForRow(at: indexPath) {
-                
-                if active {
-                    cell.textLabel?.isEnabled = true
-                    cell.detailTextLabel?.isEnabled = true
-                } else {
-                    cell.textLabel?.isEnabled = false
-                    cell.detailTextLabel?.isEnabled = false
-                }
-                
+            if active {
+                cell.textLabel?.isEnabled = true
+                cell.detailTextLabel?.isEnabled = true
+            } else {
+                cell.textLabel?.isEnabled = false
+                cell.detailTextLabel?.isEnabled = false
             }
             
         }
@@ -351,7 +340,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         // Clear all the times for each student
         resetStudents()
         tableView.reloadData()
-        for (index, student) in students.enumerated() {
+        for (index, _) in students.enumerated() {
             updateTime(for: index)
             make(speaker: index, active: true)
             resetColors(for: index)
@@ -386,10 +375,8 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         }
         
         // De-select the last speaker in the conversation (so it doesn't carry over to new discussion)
-        let nsIndexPath = NSIndexPath(row: currentSpeaker, section: 0)
-        if let indexPath = nsIndexPath as? IndexPath {
-            tableView.deselectRow(at: indexPath, animated: false)
-        }
+        let indexPath = NSIndexPath(row: currentSpeaker, section: 0) as IndexPath
+        tableView.deselectRow(at: indexPath, animated: false)
         
     }
     
