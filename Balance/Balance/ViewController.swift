@@ -86,8 +86,9 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
             timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(ViewController.tick), userInfo: nil, repeats: true)
         }
         
-        // Sort the students by time
-        sortStudents()
+//        let oldPosition = NSIndexPath(row: 5, section: 0) as IndexPath
+//        let newPosition = NSIndexPath(row: 3, section: 0) as IndexPath
+//        tableView.moveRow(at: oldPosition, to: newPosition)
         
         // Make the discussion active
         discussionActive = true
@@ -131,21 +132,35 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     func sortStudents() {
         
         // Sort the students by time in descending order
-        students.sort {
+        let sortedList = students.sorted(by: {
             $0.seconds > $1.seconds
-        }
+        })
         
-        // Reload the newly sorted array
-        tableView.reloadData()
-        
-        // Find the current speaker in the new array so that the updates to the table reflect new position
         // Update color for this student
         updateColor(for: currentSpeaker)
-        for (index, student) in students.enumerated() {
+
+        // Find the current speaker in the new array so that the updates to the table reflect new position
+        for (index, student) in sortedList.enumerated() {
             if student.currentSpeaker == 1 {
+                
+                // Animate the new position
+                let oldPosition = NSIndexPath(row: currentSpeaker, section: 0) as IndexPath
+                let newPosition = NSIndexPath(row: index, section: 0) as IndexPath
+                if currentSpeaker != index {
+                    
+                    tableView.moveRow(at: oldPosition, to: newPosition)
+
+                }
+                
+                // Update the current speaker
                 currentSpeaker = index
             }
         }
+        
+        // Save the newly sorted array
+        // NOTE: No need to invoke tableView.reloadData since we took care of moving the student just above this section
+        students = sortedList
+        //tableView.reloadData()
 
     }
     
@@ -154,15 +169,15 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         
         // Load the list of students
         students = []
-        students.append(Student(name: "Bagga, Puneet"))
-        students.append(Student(name: "Blackwell, Scott"))
-        students.append(Student(name: "Byrne, Liam"))
-        students.append(Student(name: "Elder, Andrew"))
-        students.append(Student(name: "Goldsmith, Jeffrey"))
-        students.append(Student(name: "Jones, Nicholas"))
-        students.append(Student(name: "Leder, Brendan"))
-        students.append(Student(name: "McCutcheon, Mark"))
-        students.append(Student(name: "Noble Curveira, Carlos"))
+        students.append(Student(name: "Bagga, Puneet", id: 1))
+        students.append(Student(name: "Blackwell, Scott", id: 2))
+        students.append(Student(name: "Byrne, Liam",  id: 3))
+        students.append(Student(name: "Elder, Andrew", id: 4))
+        students.append(Student(name: "Goldsmith, Jeffrey", id: 5))
+        students.append(Student(name: "Jones, Nicholas", id: 6))
+        students.append(Student(name: "Leder, Brendan", id: 7))
+        students.append(Student(name: "McCutcheon, Mark", id: 8))
+        students.append(Student(name: "Noble Curveira, Carlos", id: 9))
 
     }
     

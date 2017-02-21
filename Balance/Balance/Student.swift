@@ -14,6 +14,8 @@ class Student {
     var seconds : Int
     var hue : Float
     var currentSpeaker : Int
+    var id : Int
+    
     var formattedTime : String {
         get {
             let minutes = String(self.seconds / 60)
@@ -24,11 +26,12 @@ class Student {
         }
     }
     
-    init(name : String) {
+    init(name : String, id : Int) {
         self.name = name
         self.seconds = 0
         self.hue = 120
         self.currentSpeaker = 0
+        self.id = id
     }
     
 }
