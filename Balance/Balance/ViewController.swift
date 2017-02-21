@@ -13,7 +13,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     // MARK: Properties
     var students : [Student] = []
     var timer : Timer = Timer()
-    var currentSpeaker : Int = -1
+    var currentSpeaker : Int = 0
     var activeSpeakers = 0
     var totalTime : Int = 0
     var discussionActive : Bool = false
@@ -27,16 +27,8 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        // Load the list of students
-        students.append(Student(name: "Bagga, Puneet"))
-        students.append(Student(name: "Blackwell, Scott"))
-        students.append(Student(name: "Byrne, Liam"))
-        students.append(Student(name: "Elder, Andrew"))
-        students.append(Student(name: "Goldsmith, Jeffrey"))
-        students.append(Student(name: "Jones, Nicholas"))
-        students.append(Student(name: "Leder, Brendan"))
-        students.append(Student(name: "McCutcheon, Mark"))
-        students.append(Student(name: "Noble Curveira, Carlos"))
+        // Initialize student list
+        resetStudents()
         
     }
     
@@ -83,7 +75,9 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     func change(toSpeakerAt newSpeaker : Int) {
         
         // Change the current speaker
+        students[currentSpeaker].currentSpeaker = 0
         currentSpeaker = newSpeaker
+        students[currentSpeaker].currentSpeaker = 1
         
         // Start the timer if needed
         if !timer.isValid {
@@ -91,6 +85,9 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
             // Start the timer
             timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(ViewController.tick), userInfo: nil, repeats: true)
         }
+        
+        // Sort the students by time
+        sortStudents()
         
         // Make the discussion active
         discussionActive = true
@@ -117,6 +114,9 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
             // Track total discussion time
             totalTime += 1
             
+            // Sort the students by time
+            sortStudents()
+            
             // Update cell colour for all speakers
             updateStats()
             
@@ -125,6 +125,45 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
             
         }
         
+    }
+    
+    // Sorts students by time speaking
+    func sortStudents() {
+        
+        // Sort the students by time in descending order
+        students.sort {
+            $0.seconds > $1.seconds
+        }
+        
+        // Reload the newly sorted array
+        tableView.reloadData()
+        
+        // Find the current speaker in the new array so that the updates to the table reflect new position
+        // Update color for this student
+        updateColor(for: currentSpeaker)
+        for (index, student) in students.enumerated() {
+            if student.currentSpeaker == 1 {
+                currentSpeaker = index
+            }
+        }
+
+    }
+    
+    // Reset the student list
+    func resetStudents() {
+        
+        // Load the list of students
+        students = []
+        students.append(Student(name: "Bagga, Puneet"))
+        students.append(Student(name: "Blackwell, Scott"))
+        students.append(Student(name: "Byrne, Liam"))
+        students.append(Student(name: "Elder, Andrew"))
+        students.append(Student(name: "Goldsmith, Jeffrey"))
+        students.append(Student(name: "Jones, Nicholas"))
+        students.append(Student(name: "Leder, Brendan"))
+        students.append(Student(name: "McCutcheon, Mark"))
+        students.append(Student(name: "Noble Curveira, Carlos"))
+
     }
     
     // Updates the times for all students
@@ -139,7 +178,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
             // Get this student's hue
             if student.seconds > 0 {
                 var percentOfAverage = Float(student.seconds) / averageSpeakingTime
-                print("Percent of average for student \(index) is \(percentOfAverage)")
+                // DEBUG: print("Percent of average for student \(index) is \(percentOfAverage)")
                 if percentOfAverage <= 1 {
                     // Calculate hue as percentage of ideal (120 degrees is green)
                     student.hue = 120 * percentOfAverage
@@ -153,8 +192,11 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
                 if student.hue < 0 {
                     student.hue = 0
                 }
-                updateColor(for: index)
             }
+
+            // Update color for this student
+            updateColor(for: index)
+
         }
         
         
@@ -186,6 +228,24 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
                     UIView.beginAnimations(nil, context: nil)
                     UIView.setAnimationDuration(0.5)
                     cell.selectedBackgroundView?.layer.backgroundColor = UIColor(hue: hue, saturation: CGFloat(saturation), brightness: 1/100*90, alpha: 1/100*100).cgColor
+                    UIView.commitAnimations()
+                }
+                
+            } else {
+                
+                // Update the cell in the table with default color
+                if let cell = tableView.cellForRow(at: indexPath) {
+                    
+                    // Change colour when cell is not the currently selected cell
+                    UIView.beginAnimations(nil, context: nil)
+                    UIView.setAnimationDuration(0.5)
+                    cell.backgroundColor = UIColor.white
+                    UIView.commitAnimations()
+                    
+                    // Change colour when cell IS the currently selected cell
+                    UIView.beginAnimations(nil, context: nil)
+                    UIView.setAnimationDuration(0.5)
+                    cell.selectedBackgroundView?.layer.backgroundColor = UIColor.white.cgColor
                     UIView.commitAnimations()
                 }
                 
@@ -274,8 +334,9 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         tableView.isUserInteractionEnabled = true
         
         // Clear all the times for each student
+        resetStudents()
+        tableView.reloadData()
         for (index, student) in students.enumerated() {
-            student.seconds = 0
             updateTime(for: index)
             make(speaker: index, active: true)
             resetColors(for: index)
@@ -284,7 +345,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         // Update discussion status and detail
         totalTime = 0
         activeSpeakers = 0
-        currentSpeaker = -1
+        currentSpeaker = 0
         labelDiscussionStatus.text = "0:00"
         
     }
