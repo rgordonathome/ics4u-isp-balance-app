@@ -13,7 +13,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     // MARK: Properties
     var students : [Student] = []
     var timer : Timer = Timer()
-    var currentSpeaker : Int = 0
+    var activeSpeakerListPosition : Int = 0
     var activeSpeakers = 0
     var totalTime : Int = 0
     var discussionActive : Bool = false
@@ -72,12 +72,12 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     // MARK: Balance logic
     
     // Switches the current speaker
-    func change(toSpeakerAt newSpeaker : Int) {
+    func change(toSpeakerAt newSpeakerListPosition : Int) {
         
         // Change the current speaker
-        students[currentSpeaker].currentSpeaker = 0
-        currentSpeaker = newSpeaker
-        students[currentSpeaker].currentSpeaker = 1
+        students[activeSpeakerListPosition].isCurrentlyActiveSpeaker = false
+        activeSpeakerListPosition = newSpeakerListPosition
+        students[activeSpeakerListPosition].isCurrentlyActiveSpeaker = true
         
         // Start the timer if needed
         if !timer.isValid {
@@ -85,10 +85,6 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
             // Start the timer
             timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(ViewController.tick), userInfo: nil, repeats: true)
         }
-        
-        //        let oldPosition = NSIndexPath(row: 5, section: 0) as IndexPath
-        //        let newPosition = NSIndexPath(row: 3, section: 0) as IndexPath
-        //        tableView.moveRow(at: oldPosition, to: newPosition)
         
         // Make the discussion active
         discussionActive = true
@@ -105,12 +101,12 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         if discussionActive {
             
             // Track number of active speakers
-            if students[currentSpeaker].seconds == 0 {
+            if students[activeSpeakerListPosition].seconds == 0 {
                 activeSpeakers += 1
             }
             
             // Update the model
-            students[currentSpeaker].seconds += 1
+            students[activeSpeakerListPosition].seconds += 1
             
             // Track total discussion time
             totalTime += 1
@@ -122,7 +118,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
             updateStats()
             
             // Update the view for the speaker
-            updateTime(for: currentSpeaker)
+            updateTime(for: activeSpeakerListPosition)
             
         }
         
@@ -131,36 +127,39 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     // Sorts students by time speaking
     func sortStudents() {
         
-        // Sort the students by time in descending order
-        let sortedList = students.sorted(by: {
+        // Use newly updated time stats to sort the students in descending order
+        let newlySortedStudentsList = students.sorted(by: {
             $0.seconds > $1.seconds
         })
         
         // Update color for this student
-        updateColor(for: currentSpeaker)
+        updateColor(for: activeSpeakerListPosition)
         
         // Find the current speaker in the new array so that the updates to the table reflect new position
-        for (index, student) in sortedList.enumerated() {
-            if student.currentSpeaker == 1 {
+        for (newActiveSpeakerListPosition, student) in newlySortedStudentsList.enumerated() {
+            
+            if student.isCurrentlyActiveSpeaker == true {
                 
-                // Animate the new position
-                let oldPosition = NSIndexPath(row: currentSpeaker, section: 0) as IndexPath
-                let newPosition = NSIndexPath(row: index, section: 0) as IndexPath
-                if currentSpeaker != index {
-                    
+                // See if the student's position has changed based on updated times
+                if activeSpeakerListPosition != newActiveSpeakerListPosition {
+
+                    // Get the old and new position of the student
+                    let oldPosition = NSIndexPath(row: activeSpeakerListPosition, section: 0) as IndexPath
+                    let newPosition = NSIndexPath(row: newActiveSpeakerListPosition, section: 0) as IndexPath
+
+                    // Animate the movement of the student to their new position in the list
                     tableView.moveRow(at: oldPosition, to: newPosition)
                     
                 }
                 
                 // Update the current speaker
-                currentSpeaker = index
+                activeSpeakerListPosition = newActiveSpeakerListPosition
             }
         }
         
         // Save the newly sorted array
-        // NOTE: No need to invoke tableView.reloadData since we took care of moving the student just above this section
-        students = sortedList
-        //tableView.reloadData()
+        // NOTE: No need to invoke tableView.reloadData since we took care of moving the student to new position in the tableView just above this section
+        students = newlySortedStudentsList
         
     }
     
@@ -349,7 +348,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         // Update discussion status and detail
         totalTime = 0
         activeSpeakers = 0
-        currentSpeaker = 0
+        activeSpeakerListPosition = 0
         labelDiscussionStatus.text = "0:00"
         
     }
@@ -375,7 +374,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         }
         
         // De-select the last speaker in the conversation (so it doesn't carry over to new discussion)
-        let indexPath = NSIndexPath(row: currentSpeaker, section: 0) as IndexPath
+        let indexPath = NSIndexPath(row: activeSpeakerListPosition, section: 0) as IndexPath
         tableView.deselectRow(at: indexPath, animated: false)
         
     }

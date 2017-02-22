@@ -13,7 +13,7 @@ class Student {
     var name : String
     var seconds : Int
     var hue : Float
-    var currentSpeaker : Int
+    var isCurrentlyActiveSpeaker : Bool
     var id : Int
     
     var formattedTime : String {
@@ -30,7 +30,7 @@ class Student {
         self.name = name
         self.seconds = 0
         self.hue = 120
-        self.currentSpeaker = 0
+        self.isCurrentlyActiveSpeaker = false
         self.id = id
     }
     
