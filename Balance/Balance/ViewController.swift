@@ -96,7 +96,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     }
     
     // Updates time tracking if the discussion is not paused or ended
-    func tick() {
+    @objc func tick() {
         
         if discussionActive {
             
@@ -274,7 +274,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         // Update the cell in the table with the new color
         if let cell = tableView.cellForRow(at: indexPath) {
             cell.backgroundColor = UIColor.white
-            cell.selectionStyle = UITableViewCellSelectionStyle.default
+            cell.selectionStyle = UITableViewCell.SelectionStyle.default
             let bgColorView = UIView()
             bgColorView.backgroundColor = UIColor.lightGray
             cell.selectedBackgroundView = bgColorView
@@ -358,7 +358,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         timer.invalidate()
         labelDiscussionStatus.isEnabled = false
         UIView.setAnimationsEnabled(false)
-        buttonToggleDiscussion.setTitle("❙❙", for: UIControlState.normal)
+        buttonToggleDiscussion.setTitle("❙❙", for: UIControl.State.normal)
         buttonToggleDiscussion.titleLabel?.font = UIFont(name: "Zapf Dingbats", size: 30.0)
         buttonToggleDiscussion.setNeedsDisplay()
         UIView.setAnimationsEnabled(true)
@@ -385,7 +385,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
             // Pause the currently active discussion
             UIView.setAnimationsEnabled(false)
             buttonToggleDiscussion.titleLabel?.font = UIFont(name: "Zapf Dingbats", size: 26.0)
-            buttonToggleDiscussion.setTitle("▶︎", for: UIControlState.normal)
+            buttonToggleDiscussion.setTitle("▶︎", for: UIControl.State.normal)
             buttonToggleDiscussion.setNeedsDisplay()
             UIView.setAnimationsEnabled(true)
             discussionActive = false
@@ -399,7 +399,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         } else {
             // Re-enable the currently active discussion
             UIView.setAnimationsEnabled(false)
-            buttonToggleDiscussion.setTitle("❙❙", for: UIControlState.normal)
+            buttonToggleDiscussion.setTitle("❙❙", for: UIControl.State.normal)
             buttonToggleDiscussion.titleLabel?.font = UIFont(name: "Zapf Dingbats", size: 30.0)
             buttonToggleDiscussion.setNeedsDisplay()
             UIView.setAnimationsEnabled(true)
