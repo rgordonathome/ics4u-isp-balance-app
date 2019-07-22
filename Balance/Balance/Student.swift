@@ -20,7 +20,7 @@ class Student {
         get {
             let minutes = String(self.seconds / 60)
             let seconds = String(self.seconds % 60)
-            let paddedSeconds = String(repeating: "0", count: 2 - seconds.characters.count) + seconds
+            let paddedSeconds = String(repeating: "0", count: 2 - seconds.count) + seconds
             let formattedTime = minutes + ":" + paddedSeconds
             return formattedTime
         }
